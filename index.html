@@ -1,0 +1,733 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>[BETA] Interactive Cat Species Map</title>
+  <meta charset="utf-8" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+  <style>
+    #map { height: 100vh; }
+    body { margin: 0; }
+  </style>
+</head>
+<body>
+  <div id="map"></div>
+
+  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+  <script>  const map = L.map('map').setView([20, 0], 2); // Center on world
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '© OpenStreetMap contributors'
+    }).addTo(map);
+    const catSpecies = [
+{
+      name: "Jagupard",
+      coords: [21, 26],
+      country: "Northeast Africa",
+      fact: "A jagupard is the hybrid of a male jaguar and a female leopard.",
+      img: "https://www.macroevolution.net/images/jagulep-380-437-20.jpg"
+    },
+{
+      name: "Leguar",
+      coords: [0, 0.5],
+      country: "None",
+      fact: "A leguar or lepjag is the hybrid of a male leopard and a female jaguar.",
+      img: "https://www.macroevolution.net/images/jagulep-380-437-20.jpg"
+    },
+{
+      name: "Lijagulep",
+      coords: [41.881832, -87.623177],
+      country: "Chicago",
+      fact: "The lijagulep, is the hybrid of a male lion and female jaguar-leopard hybrid (a jagulep or lepjag)",
+      img: "https://upload.wikimedia.org/wikipedia/commons/f/f3/Lijagulep-1908.jpg"
+    },
+{
+      name: "Jaglion",
+      coords: [44.343632, -79.7696525],
+      country: "Bear Creek Santuary",
+      fact: "A jaglion or jaguon is the offspring between a male jaguar and a female lion (lioness).",
+      img: "https://upload.wikimedia.org/wikipedia/commons/0/04/Jaglion.jpg"
+    },
+{
+      name: "Liguar",
+      coords: [1, 0],
+      country: "None",
+      fact: "A liguar is an offspring of a male lion and a female jaguar.",
+      img: "https://static.wikia.nocookie.net/animals/images/0/04/Jaglion.jpg"
+    },
+{
+      name: "Leoliguar",
+      coords: [-1, 0],
+      country: "None",
+      fact: "Hybrid between a liguar and a Leopard.",
+      img: "https://www.chuangzaolun.com/images/ZaZhi/40_2/shishihu/Creation-402_Liligers_Cover.jpg"
+    },
+{
+      name: "Tiguar",
+      coords: [16.3, -91.159058],
+      country: "México",
+      fact: "A tiguar is an offspring of a male tiger and a female jaguar.",
+      img: "https://static.wikia.nocookie.net/animals/images/c/cd/Tiguar.jpg"
+    },
+{
+      name: "Jagger",
+      coords: [0, 1],
+      country: "None",
+      fact: "There has been no report of the birth of a hybrid from a male jaguar and female tiger, which would be termed a jagger.",
+      img: ""
+    },
+{
+      name: "Leopon",
+      coords: [16.691307, 74.244865],
+      country: "Kolhapur, India",
+      fact: "It was a cross between a large leopard and a lioness.",
+      img: "https://upload.wikimedia.org/wikipedia/commons/thumb/8/87/Leopon_ponko.JPG/300px-Leopon_ponko.JPG"
+    },
+{
+      name: "Lionard",
+      coords: [43.769562, 11.255814],
+      country: "Florence, Italy",
+      fact: "Information for this cat is unknown",
+      img: ""
+    },
+{
+      name: "Dogla",
+      coords: [0, -1],
+      country: "None",
+      fact: "The name dogla is a native Indian name used for a supposedly natural hybrid offspring of a male leopard and a female tiger (tigress). Indian folklore claims that large male leopards sometimes mate with tigresses, and anecdotal evidence exists in India of offspring resulting from leopard to tigress matings. A supposed dogla was reported in the early 1900s.",
+      img: "https://live.staticflickr.com/7365/12988006624_b7b5726f1d_b.jpg"
+    },
+{
+      name: "Tigard",
+      coords: [1, 1],
+      country: "None",
+      fact: "A tigard is the hybrid offspring of a tiger and a leopardess. The only known attempts to mate the two have produced stillborns.",
+      img: ""
+    },
+{
+      name: "Tigon",
+      coords: [1, -1],
+      country: "None",
+      fact: "The tigon is a hybrid offspring of a male tiger (Panthera tigris) and a female lion, or lioness (Panthera leo).",
+      img: "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7d/Tigon4.jpg/300px-Tigon4.jpg"
+    },
+{
+      name: "Liger",
+      coords: [20, 78],
+      country: "India",
+      fact: "The liger is a hybrid offspring of a male lion (Panthera leo) and a tigress, or female tiger (Panthera tigris).",
+      img: "https://upload.wikimedia.org/wikipedia/commons/thumb/7/71/Liger_couple.jpg/330px-Liger_couple.jpg"
+    },
+{
+      name: "Liliger",
+      coords: [55.056, 82.880],
+      country: "Russia",
+      fact: "The liliger is the hybrid offspring of a male lion (Panthera leo) and a female liger (Panthera leo♂ × Panthera tigris♀). Thus, it is a second generation hybrid.",
+      img: "https://www.chuangzaolun.com/images/ZaZhi/40_2/shishihu/Creation-402_Liligers_Cover.jpg"
+    },
+{
+      name: "Litigon",
+      coords: [22.535913, 88.332053],
+      country: "Zoological Garden, Alipore, Kolkata (Calcutta)",
+      fact: "A litigon is a rare, second-generation hybrid from a female tigon and a male lion, specifically an Asiatic lion.",
+      img: "https://alchetron.com/cdn/litigon-9c07bce1-081a-4ca4-b9d3-c87112991c6-resize-750.jpeg"
+    },
+{
+      name: "Tiliger",
+      coords: [-1, -1],
+      country: "None",
+      fact: "A tiliger is the offspring of a male tiger and a ligress.",
+      img: "https://alchetron.com/cdn/tiliger-43851d2b-51f1-4ed1-b1f5-7eeb3a5156d-resize-750.jpeg"
+    },
+{
+      name: "Titigon",
+      coords: [-1, 1],
+      country: "None",
+      fact: "A titigon is the offspring of a male tiger and a tigoness.",
+      img: "https://www.ligerworld.com/tigons/tigon-hybrid-tiger-lioness.jpg"
+    },
+{
+      name: "Lio-pan",
+      coords: [0, -0.5],
+      country: "Unknown",
+      fact: "Unknown",
+      img: ""
+    },
+{
+      name: "Tiger",
+      coords: [34.0479, 100.6197],
+      country: "Asia",
+      fact: "The tiger (Panthera tigris) is a large cat and a member of the genus Panthera native to Asia. It has a powerful, muscular body with a large head and paws, a long tail and orange fur with black, mostly vertical stripes.",
+      img: "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3f/Walking_tiger_female.jpg/330px-Walking_tiger_female.jpg"
+    },
+{
+      name: "Lion",
+      coords: [18, 25],
+      country: "Sub-Saharan Africa",
+      fact: "The lion (Panthera leo) is a large cat of the genus Panthera. It has a muscular, broad-chested body; a short, rounded head; round ears; and a dark, hairy tuft at the tip of its tail.",
+      img: "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a6/020_The_lion_king_Snyggve_in_the_Serengeti_National_Park_Photo_by_Giles_Laurent.jpg/330px-020_The_lion_king_Snyggve_in_the_Serengeti_National_Park_Photo_by_Giles_Laurent.jpg"
+    },
+{
+      name: "Domestic cat",
+      coords: [33.7, 43.5],
+      country: "Fertile Crescent",
+      fact: "The cat (Felis catus), also known as a domestic cat or house cat, is a small domesticated carnivorous mammal. It is the only domesticated species of the family Felidae. It is commonly kept as a pet and working cat, but also ranges freely as a feral cat avoiding human contact. It is valued by humans for companionship and its ability to kill vermin.",
+      img: "https://upload.wikimedia.org/wikipedia/commons/thumb/1/15/Cat_August_2010-4.jpg/330px-Cat_August_2010-4.jpg"
+    },
+{
+      name: "Cougar",
+      coords: [33.710556, -117.534167],
+      country: "The Americas",
+      fact: "The cougar, also called puma, mountain lion, catamount and panther is a large small cat native to the Americas. It inhabits North, Central and South America, making it the most widely distributed wild, terrestrial mammal in the Western Hemisphere.",
+      img: "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d6/Mountain_Lion_in_Glacier_National_Park.jpg/330px-Mountain_Lion_in_Glacier_National_Park.jpg"
+    },
+{
+      name: "Jaguar",
+      coords: [-14.6048, -59.0625],
+      country: "South America",
+      fact: "The jaguar (Panthera onca) is a large cat species and the only living member of the genus Panthera that is native to the Americas. With a body length of up to 1.85 m (6 ft 1 in) and a weight of up to 158 kg (348 lb), it is the biggest cat species in the Americas and the third largest in the world.",
+      img: "https://upload.wikimedia.org/wikipedia/commons/archive/0/0a/20110718214856%21Standing_jaguar.jpg"
+    },
+{
+      name: "Snow leopard",
+      coords: [38.2, 72.666667],
+      country: "Central and South Asia",
+      fact: "The snow leopard (Panthera uncia) is a species of large cat in the genus Panthera of the family Felidae. The species is native to the mountain ranges of Central and South Asia.",
+      img: "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a5/Irbis4.JPG/330px-Irbis4.JPG"
+    },
+{
+      name: "Leopard",
+      coords: [-0.803689, 11.609444],
+      country: "African rainforests",
+      fact: "The leopard (Panthera pardus) is one of the five extant cat species in the genus Panthera. It has a pale yellowish to dark golden fur with dark spots grouped in rosettes. Its body is slender and muscular reaching a length of 92–183 cm (36–72 in) with a 66–102 cm (26–40 in) long tail and a shoulder height of 60–70 cm (24–28 in). Males typically weigh 30.9–72 kg (68–159 lb), and females 20.5–43 kg (45–95 lb).",
+      img: "https://upload.wikimedia.org/wikipedia/commons/thumb/7/70/African_leopard_male_%28cropped%29.jpg/250px-African_leopard_male_%28cropped%29.jpg"
+    },
+{
+      name: "Cheetah",
+      coords: [-23, 22],
+      country: "Africa",
+      fact: "The cheetah (Acinonyx jubatus) is a large cat and the fastest land animal. It has a tawny to creamy white or pale buff fur that is marked with evenly spaced, solid black spots. The head is small and rounded, with a short snout and black tear-like facial streaks. The cheetah is capable of running at 93 to 104 km/h (58 to 65 mph); it has evolved specialized adaptations for speed, including a light build, long thin legs and a long tail. ",
+      img: "https://upload.wikimedia.org/wikipedia/commons/thumb/9/92/Male_cheetah_facing_left_in_South_Africa.jpg/330px-Male_cheetah_facing_left_in_South_Africa.jpg"
+    },
+{
+      name: "African wildcat",
+      coords: [9.1021, 18.2812],
+      country: "Africa",
+      fact: "Ancestors of domestic cat",
+      img: "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f6/Southern_African_Wildcat_%28Felis_sylvestris_cafra%29_female_..._%28captive_specimen%29_%2839789072173%29.jpg/330px-Southern_African_Wildcat_%28Felis_sylvestris_cafra%29_female_..._%28captive_specimen%29_%2839789072173%29.jpg"
+    },
+{
+      name: "Leopard cat",
+      coords: [9.4581963681147, 120.76606274396],
+      country: "South, Southeast, and East Asia",
+      fact: "This type of cat has similar behavior to domestic cats but are still wild so be careful with them!",
+      img: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/56/Prionailurus_bengalensis_bengalensis_2-D%C3%A9coupe.JPG/330px-Prionailurus_bengalensis_bengalensis_2-D%C3%A9coupe.JPG"
+    },
+{
+      name: "Bengal cat",
+      coords: [23.777176, 90.399452],
+      country: "Bangladesh",
+      fact: "This cat is a hybrid cat created from crossing of an Asian leopard cat with domestic cats",
+      img: "https://upload.wikimedia.org/wikipedia/commons/thumb/b/ba/Paintedcats_Red_Star_standing.jpg/250px-Paintedcats_Red_Star_standing.jpg"
+    },
+{
+      name: "Jungle cat",
+      coords: [33.5, 35.75],
+      country: "Eastern Mediterranean",
+      fact: "It inhabits foremost wetlands like swamps, littoral and riparian areas with dense vegetation.",
+      img: "https://upload.wikimedia.org/wikipedia/commons/thumb/2/24/FelisChausMunsiari1.jpg/330px-FelisChausMunsiari1.jpg"
+    },
+{
+      name: "Caracal",
+      coords: [29, 41],
+      country: "Middle East",
+      fact: "The caracal is a medium-sized wild cat native to Africa, the Middle East, Central Asia, and arid areas of Pakistan and northwestern India. It is characterised by a robust build, long legs, a short face, long tufted ears, relatively short tail, and long canine teeth.",
+      img: "https://upload.wikimedia.org/wikipedia/commons/thumb/7/75/Caracal_on_the_road%2C_early_morning_in_Kgalagadi_%2836173878220%29_%28cropped%29.jpg/250px-Caracal_on_the_road%2C_early_morning_in_Kgalagadi_%2836173878220%29_%28cropped%29.jpg"
+    },
+{
+      name: "Kellas cat",
+      coords: [56.4396, -4.0532],
+      country: "Scotland",
+      fact: "The Kellas cat is a large black cat found in Scotland. It is an interspecific hybrid between the Scottish wildcat (Felis silvestris silvestris syn. Felis silvestris grampia) and the domestic cat (Felis catus).",
+      img: "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1d/Kellas_cat.JPG/330px-Kellas_cat.JPG"
+    },
+{
+      name: "Fishing cat",
+      coords: [24.52, 89.01],
+      country: "South Asia",
+      fact: "The fishing cat (Prionailurus viverrinus) is a medium-sized wild cat of South and Southeast Asia. It has a deep yellowish-grey fur with black lines and spots. It lives mostly in the vicinity of wetlands, along rivers, streams, oxbow lakes, in swamps and mangroves where it preys mostly on fish. It is a good swimmer and can swim long distances, even underwater. ",
+      img: "https://upload.wikimedia.org/wikipedia/commons/f/f7/Prionailurus_viverrinus_01.jpg"
+    },
+{
+      name: "Bobcat",
+      coords: [34.7554, -119.7176],
+      country: "North America",
+      fact: "The bobcat (Lynx rufus), also known as the wildcat, bay lynx, or red lynx, is one of the four extant species within the medium-sized wild cat genus Lynx.",
+      img: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4e/Bobcat_at_Columbus_Zoo_Boo.jpg/250px-Bobcat_at_Columbus_Zoo_Boo.jpg"
+    },
+{
+      name: "Margay",
+      coords: [13.75, -84.75],
+      country: "Mexico, Central and South America",
+      fact: "The margay (Leopardus wiedii) is a small wild cat. It lives mainly in primary evergreen and deciduous forest. ",
+      img: "https://upload.wikimedia.org/wikipedia/commons/thumb/b/bd/Margay_in_Costa_Rica.jpg/250px-Margay_in_Costa_Rica.jpg"
+    },
+{
+      name: "Sand cat",
+      coords: [23, 13],
+      country: "The deserts of North Africa and Southwest and Central Asia",
+      fact: "The sand cat (Felis margarita) is a small wild cat that inhabits sandy and stony deserts far from water sources. With its sandy to light grey fur, it is well camouflaged in a desert environment. It has a 23–31 cm (9.1–12.2 in) long tail. Its 5–7 cm (2.0–2.8 in) short ears are set low on the sides of the head, aiding detection of prey moving underground. The long hair covering the soles of its paws insulates its pads against the extreme temperatures found in deserts.",
+      img: "https://upload.wikimedia.org/wikipedia/commons/e/e9/Persian_sand_CAT.jpg"
+    },
+{
+      name: "Geoffroy's cat",
+      coords: [-36.573, -64.966],
+      country: "Southern and central regions of South America",
+      fact: "Geoffroy's cat (Leopardus geoffroyi) is a small wild cat. It is around the size of a domestic cat.",
+      img: "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d9/Salzkatze.jpg/330px-Salzkatze.jpg"
+    },
+{
+      name: "Chinese mountain cat",
+      coords: [33, 88],
+      country: "Tibetan Plateau of western China",
+      fact: "The Chinese mountain cat (Felis bieti), also known as Chinese desert cat and Chinese steppe cat, is a small wild Felis species with sand-coloured fur, faint dark stripes on the face and legs and black tipped ears. It is endemic to the Tibetan Plateau of western China, where it lives in grassland above elevations of 2,500 m (8,200 ft).",
+      img: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/41/Chinese_Mountain_Cat_%28Felis_Bieti%29_in_XiNing_Wild_Zoo_2.jpg/250px-Chinese_Mountain_Cat_%28Felis_Bieti%29_in_XiNing_Wild_Zoo_2.jpg"
+    },
+{
+      name: "Oncilla",
+      coords: [10.3025, -84.795556],
+      country: "Central America to central Brazil",
+      fact: "The oncilla (Leopardus tigrinus), also known as the northern tiger cat, little spotted cat, and tigrillo, is a small spotted cat.",
+      img: "https://upload.wikimedia.org/wikipedia/commons/thumb/3/32/Leopardus_tigrinus_-_Parc_des_F%C3%A9lins.jpg/330px-Leopardus_tigrinus_-_Parc_des_F%C3%A9lins.jpg"
+    },
+{
+      name: "Scottish wildcat",
+      coords: [56.7164, -5.5428],
+      country: "Scotland",
+      fact: "The Scottish wildcat is a European wildcat (Felis silvestris silvestris) population in Scotland. It was once widely distributed across Great Britain, but the population has declined drastically since the turn of the 20th century due to habitat loss and persecution. It is now limited to northern and eastern Scotland. Camera-trapping surveys carried out in the Scottish Highlands between 2010 and 2013 revealed that wildcats live foremost in mixed woodland.",
+      img: "https://upload.wikimedia.org/wikipedia/commons/b/b6/Scottish_wildcat_%26_kitten.jpg"
+    },
+{
+      name: "Arabian wildcat",
+      coords: [23.4157, 58.0226],
+      country: "Northern Oman semideserts",
+      fact: "The Arabian wildcat (Felis lybica lybica), also called Gordon's wildcat is a wildcat subspecies that inhabits the Arabian Peninsula. ",
+      img: "https://upload.wikimedia.org/wikipedia/commons/thumb/7/75/Felis_silvestris_gordoni.jpg/330px-Felis_silvestris_gordoni.jpg"
+    },
+{
+      name: "Asiatic wildcat",
+      coords: [39.7453, 49.3491],
+      country: "Africa and Asia",
+      fact: "The Asiatic wildcat (Felis lybica ornata), also known as the Indian desert cat, is an African wildcat subspecies that occurs from the eastern Caspian Sea north to Kazakhstan, into western India, western China and southern Mongolia. There is no information on current status or population numbers across the Asiatic wildcat's range as a whole, but populations are thought to be declining.",
+      img: "https://upload.wikimedia.org/wikipedia/commons/4/48/Felis_silvestris_ornata.jpg"
+    },
+{
+      name: "European wildcat",
+      coords: [47.878611, 8.011111 ],
+      country: "Continental Europe, Great Britain, Turkey and the Caucasus",
+      fact: "The European wildcat (Felis silvestris) is a small wildcat species. Its fur is brownish to grey with stripes on the forehead and on the sides and has a bushy tail with a black tip. It reaches a head-to-body length of up to 65 cm (26 in) with a 34.5 cm (13.6 in) long tail, and weighs up to 7.5 kg (17 lb). ",
+      img: "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d0/Felis_silvestris_silvestris_Luc_Viatour.jpg/250px-Felis_silvestris_silvestris_Luc_Viatour.jpg"
+    },
+{
+      name: "Southern african wildcat",
+      coords: [-34, 23.1],
+      country: "Southern and Eastern Africa",
+      fact: "The Southern African wildcat (Felis lybica cafra) is an African wildcat subspecies. It is also known in English as the 'bush cat'.",
+      img: "https://upload.wikimedia.org/wikipedia/commons/1/19/Felis_silvestris_cafra.jpg"
+    },
+{
+      name: "Caucasian wildcat",
+      coords: [43.355, 42.441944],
+      country: "Caucasus Mountains and Turkey",
+      fact: "The Caucasian wildcat (Felis silvestris caucasica) is a European wildcat subspecies.",
+      img: "https://mf.b37mrtl.ru/rbthmedia/images/2024.05/original/665595d671958b0e814a782f.jpg"
+    },
+{
+      name: "Corsican wildcat",
+      coords: [-0.5, 0],
+      country: "Unknown",
+      fact: "The Corsican wildcat is an isolated cat population of uncertain taxonomic status that has been variously regarded as a separate species of its own (as Felis reyi), a subspecies of the African wildcat (as Felis lybica reyi), or a population of feral house cats (Felis catus) that were introduced to Corsica around the beginning of the first millennium.",
+      img: "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c9/Felis_silvestris_reyi_05_MWNH_453.JPG/330px-Felis_silvestris_reyi_05_MWNH_453.JPG"
+    },
+{
+      name: "Cretan wildcat",
+      coords: [0.5, 0],
+      country: "Unknown",
+      fact: "The Cretan wildcat is a member of the genus Felis that inhabits the Greek island of Crete. Its taxonomic status is unclear at present, as some biologists consider it probably introduced, or a European wildcat (Felis silvestris silvestris), or a hybrid between European wildcat and domestic cat (F. catus). It was previously considered a separate subspecies of wildcat as Felis silvestris cretensis.",
+      img: "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f4/Felis_silvestris_cretensis.jpg/330px-Felis_silvestris_cretensis.jpg"
+    },
+{
+      name: "Clouded leopard",
+      coords: [12.798889, 99.453333],
+      country: "Himalayas through Northeast India and Bhutan to mainland Southeast Asia into South China",
+      fact: "The clouded leopard (Neofelis nebulosa), also called mainland clouded leopard, is a wild cat inhabiting dense forests. It was first described in 1821 on the basis of a skin of an individual from China. The clouded leopard has large dusky-grey blotches and irregular spots and stripes reminiscent of clouds. It uses its tail for balancing when moving in trees and is able to climb down vertical tree trunks head first. It rests in trees during the day and hunts by night on the forest floor. ",
+      img: "https://upload.wikimedia.org/wikipedia/commons/thumb/3/39/Neofelis_nebulosa%2C_Clouded_leopard.jpg/330px-Neofelis_nebulosa%2C_Clouded_leopard.jpg"
+    },
+{
+      name: "Ocelot",
+      coords: [-3, -60],
+      country: "Southwestern United States, Mexico, Central and South America, and the Caribbean islands of Trinidad and Margarita",
+      fact: "The ocelot (Leopardus pardalis) is a medium-sized spotted wild cat that reaches 40–50 cm (16–20 in) at the shoulders and weighs between 7 and 15.5 kg (15 and 34 lb) on average. Carl Linnaeus scientifically described it in 1758. Two subspecies are recognized. ",
+      img: "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f8/Ocelot_%28Jaguatirica%29_Zoo_Itatiba.jpg/330px-Ocelot_%28Jaguatirica%29_Zoo_Itatiba.jpg"
+    },
+{
+      name: "Asian golden cat",
+      coords: [27.87, 86.18],
+      country: "Northeastern Indian subcontinent, Southeast Asia and China",
+      fact: "The Asian golden cat (Catopuma temminckii) is a medium-sized wild cat. The Asian golden cat's scientific name honours Coenraad Jacob Temminck. It is also called Temminck's cat and Asiatic golden cat.",
+      img: "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d7/Asian_Golden_cat.jpg/250px-Asian_Golden_cat.jpg"
+    },
+{
+      name: "Bay cat",
+      coords: [-1.24, 110.239167],
+      country: "Borneo",
+      fact: "The bay cat (Catopuma badia), also known as the Bornean bay cat, is a small wild cat that appears to be relatively rare compared to sympatric wild cats, based on the paucity of historical, as well as recent records.",
+      img: "https://upload.wikimedia.org/wikipedia/commons/thumb/b/ba/Bay_cat_1_Jim_Sanderson-cropped.jpg/330px-Bay_cat_1_Jim_Sanderson-cropped.jpg"
+    },
+{
+      name: "Marbled cat",
+      coords: [27.75, 89.516667],
+      country: "Eastern Himalayas to Southeast Asia",
+      fact: "The marbled cat (Pardofelis marmorata) is a small wild cat. It inhabits forests up to an elevation of 2,500 m (8,200 ft).",
+      img: "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3f/Marbled_cat_borneo.jpg/250px-Marbled_cat_borneo.jpg"
+    },
+{
+      name: "African golden cat",
+      coords: [10.5, -10.2],
+      country: "Rainforests of West and Central Africa",
+      fact: "The African golden cat (Caracal aurata) is a wild cat. It is threatened due to deforestation and bushmeat hunting and listed as Vulnerable on the IUCN Red List. It is a close relative of both the caracal and the serval",
+      img: "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c4/Caracal_aurata_2.jpg/330px-Caracal_aurata_2.jpg"
+    },
+{
+      name: "Serval",
+      coords: [-12.333333, 32.25],
+      country: "Africa",
+      fact: "The serval (Leptailurus serval) is a wild small cat native to Africa. It is widespread in sub-Saharan countries, where it inhabits grasslands, wetlands, moorlands and bamboo thickets. Across its range, it occurs in protected areas, and hunting it is either prohibited or regulated in range countries. ",
+      img: "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7d/Leptailurus_serval_61666728%2C_crop.jpg/330px-Leptailurus_serval_61666728%2C_crop.jpg"
+    },
+{
+      name: "Andean Mountain Cat",
+      coords: [-32, -70],
+      country: "Andes",
+      fact: "The Andean mountain cat (Leopardus jacobita) is a small wild cat native to the high Andes that has been listed as Endangered on the IUCN Red List because fewer than 1,500 individuals are thought to exist in the wild. It is traditionally considered a sacred animal by indigenous Aymara and Quechua people.",
+      img: "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e0/Andean_cat_1_Jim_Sanderson.jpg/330px-Andean_cat_1_Jim_Sanderson.jpg"
+    },
+{
+      name: "Kodkod",
+      coords: [-41.330108, -73.661378],
+      country: "Central and southern Chile",
+      fact: "The kodkod (Leopardus guigna), also called güiña, is the smallest felid species native to the Americas. It lives primarily in central and southern Chile, as well as marginally in adjoining areas of Argentina.",
+      img: "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d0/Leopardus_guigna.jpeg/330px-Leopardus_guigna.jpeg"
+    },
+{
+      name: "Pampas cat",
+      coords: [-19.1622, -61.4702],
+      country: "South America",
+      fact: "The Pampas cat (Leopardus colocola) is a small wild cat. It is named after the Pampas, but occurs in grassland, shrubland, and dry forest at elevations up to 5,000 m (16,000 ft).",
+      img: "https://upload.wikimedia.org/wikipedia/commons/8/81/Leopardus_pajeros_20101006.jpg"
+    },
+{
+      name: "Southern tigrina",
+      coords: [-16.5, -39.25],
+      country: "Brazil, Argentina and Paraguay",
+      fact: "Leopardus guttulus, the southern tigrina or southern tiger cat, is a small wild cat species.",
+      img: "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7e/Gato-do-mato-pequeno.jpg/330px-Gato-do-mato-pequeno.jpg"
+    },
+{
+      name: "Canada lynx",
+      coords: [46.852827, -121.760441],
+      country: "The U.S and Canada",
+      fact: "The Canada lynx (Lynx canadensis) or Canadian lynx is one of the four living species in the genus Lynx. It is a medium-sized wild cat characterized by long, dense fur, triangular ears with black tufts at the tips, and broad, snowshoe-like paws. Its hindlimbs are longer than the forelimbs, so its back slopes downward to the front. It is a good swimmer and an agile climber. ",
+      img: "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1a/Canada_lynx_by_Michael_Zahra_%28cropped%29.jpg/250px-Canada_lynx_by_Michael_Zahra_%28cropped%29.jpg"
+    },
+{
+      name: "Lynx",
+      coords: [52.75, 23.95],
+      country: "Europe and Asia",
+      fact: "A lynx is any of the four extant species (the Canada lynx, Iberian lynx, Eurasian lynx and the bobcat) within the medium-sized wild cat genus Lynx. The name originated in Middle English via Latin from the Greek word lynx (λύγξ), derived from the Indo-European root *leuk- ('light', 'brightness'), in reference to the luminescence of its reflective eyes.",
+      img: "https://upload.wikimedia.org/wikipedia/commons/1/1f/Lynx_heads_collage.jpg"
+    },
+{
+      name: "Eurasion lynx",
+      coords: [0, 0],
+      country: "Unknown",
+      fact: "Info coming soon.",
+      img: "https://via.placeholder.com/150?text=Eurasion+lynx"
+    },
+{
+      name: "Iberian lynx",
+      coords: [0, 0],
+      country: "Unknown",
+      fact: "Info coming soon.",
+      img: "https://via.placeholder.com/150?text=Iberian+lynx"
+    },
+{
+      name: "Jaguarundi",
+      coords: [0, 0],
+      country: "Unknown",
+      fact: "Info coming soon.",
+      img: "https://via.placeholder.com/150?text=Jaguarundi"
+    },
+{
+      name: "Flat headed Cat",
+      coords: [0, 0],
+      country: "Unknown",
+      fact: "Info coming soon.",
+      img: "https://via.placeholder.com/150?text=Flat+headed+Cat"
+    },
+{
+      name: "Rusty spotted Cat",
+      coords: [0, 0],
+      country: "Unknown",
+      fact: "Info coming soon.",
+      img: "https://via.placeholder.com/150?text=Rusty+spotted+Cat"
+    },
+{
+      name: "Sunda leopard Cat",
+      coords: [0, 0],
+      country: "Unknown",
+      fact: "Info coming soon.",
+      img: "https://via.placeholder.com/150?text=Sunda+leopard+Cat"
+    },
+{
+      name: "Black-footed Cat",
+      coords: [0, 0],
+      country: "Unknown",
+      fact: "Info coming soon.",
+      img: "https://via.placeholder.com/150?text=Black-footed+Cat"
+    },
+{
+      name: "Sunda clouded leopard",
+      coords: [0, 0],
+      country: "Unknown",
+      fact: "Info coming soon.",
+      img: "https://via.placeholder.com/150?text=Sunda+clouded+leopard"
+    },
+{
+      name: "Issoire lynx (Extinct)",
+      coords: [0, 0],
+      country: "Unknown",
+      fact: "Info coming soon.",
+      img: "https://via.placeholder.com/150?text=Issoire+lynx+(Extinct)"
+    },
+{
+      name: "Lynx thomasi (Extinct)",
+      coords: [0, 0],
+      country: "Unknown",
+      fact: "Info coming soon.",
+      img: "https://via.placeholder.com/150?text=Lynx+thomasi+(Extinct)"
+    },
+{
+      name: "Lynx hei (Extinct)",
+      coords: [0, 0],
+      country: "Unknown",
+      fact: "Info coming soon.",
+      img: "https://via.placeholder.com/150?text=Lynx+hei+(Extinct)"
+    },
+{
+      name: "Smilodon (Extinct)",
+      coords: [0, 0],
+      country: "Unknown",
+      fact: "Info coming soon.",
+      img: "https://via.placeholder.com/150?text=Smilodon+(Extinct)"
+    },
+{
+      name: "North American cougar",
+      coords: [45.595278, -64.953889],
+      country: "North America",
+      fact: "The North American cougar (Puma concolor couguar) is a cougar subspecies in North America. It is the biggest cat in North America (North American jaguars are fairly small). It was once common in eastern North America and is still prevalent in the western half of the continent.",
+      img: "https://upload.wikimedia.org/wikipedia/commons/thumb/f/fc/Cougar_-_panoramio_%282%29.jpg/330px-Cougar_-_panoramio_%282%29.jpg"
+    },
+{
+      name: "Bornean Bay cat",
+      coords: [0, 0],
+      country: "Unknown",
+      fact: "Info coming soon.",
+      img: "https://via.placeholder.com/150?text=Bornean+Bay+cat"
+    },
+{
+      name: "Afro-Asiatic Wildcat",
+      coords: [0, 0],
+      country: "Unknown",
+      fact: "Info coming soon.",
+      img: "https://via.placeholder.com/150?text=Afro-Asiatic+Wildcat"
+    },
+{
+      name: "Asiatic Golden Cat",
+      coords: [0, 0],
+      country: "Unknown",
+      fact: "Info coming soon.",
+      img: "https://via.placeholder.com/150?text=Asiatic+Golden+Cat"
+    },
+{
+      name: "Central Chilean Pampas Cat",
+      coords: [0, 0],
+      country: "Unknown",
+      fact: "Info coming soon.",
+      img: "https://via.placeholder.com/150?text=Central+Chilean+Pampas+Cat"
+    },
+{
+      name: "Brazillian Pampas Cat",
+      coords: [0, 0],
+      country: "Unknown",
+      fact: "Info coming soon.",
+      img: "https://via.placeholder.com/150?text=Brazillian+Pampas+Cat"
+    },
+{
+      name: "Uruguayan Pampas Cat",
+      coords: [0, 0],
+      country: "Unknown",
+      fact: "Info coming soon.",
+      img: "https://via.placeholder.com/150?text=Uruguayan+Pampas+Cat"
+    },
+{
+      name: "Northern Pampas Cat",
+      coords: [0, 0],
+      country: "Unknown",
+      fact: "Info coming soon.",
+      img: "https://via.placeholder.com/150?text=Northern+Pampas+Cat"
+    },
+{
+      name: "Southern Pampas Cat",
+      coords: [0, 0],
+      country: "Unknown",
+      fact: "Info coming soon.",
+      img: "https://via.placeholder.com/150?text=Southern+Pampas+Cat"
+    },
+{
+      name: "Brazilian Pampas Cat",
+      coords: [0, 0],
+      country: "Unknown",
+      fact: "Info coming soon.",
+      img: "https://via.placeholder.com/150?text=Brazilian+Pampas+Cat"
+    },
+{
+      name: "Guiña, Kodkod",
+      coords: [0, 0],
+      country: "Unknown",
+      fact: "Info coming soon.",
+      img: "https://via.placeholder.com/150?text=Guiña,+Kodkod"
+    },
+{
+      name: "Southern/Atlantic Forest Tiger Cat",
+      coords: [0, 0],
+      country: "Unknown",
+      fact: "Info coming soon.",
+      img: "https://via.placeholder.com/150?text=Southern/Atlantic+Forest+Tiger+Cat"
+    },
+{
+      name: "Northern/Savanna Tiger Cat",
+      coords: [0, 0],
+      country: "Unknown",
+      fact: "Info coming soon.",
+      img: "https://via.placeholder.com/150?text=Northern/Savanna+Tiger+Cat"
+    },
+{
+      name: "Clouded Tiger Cat",
+      coords: [0, 0],
+      country: "Unknown",
+      fact: "Info coming soon.",
+      img: "https://via.placeholder.com/150?text=Clouded+Tiger+Cat"
+    },
+{
+      name: "Andean Cat",
+      coords: [0, 0],
+      country: "Unknown",
+      fact: "Info coming soon.",
+      img: "https://via.placeholder.com/150?text=Andean+Cat"
+    },
+{
+      name: "Pallas's Cat",
+      coords: [0, 0],
+      country: "Unknown",
+      fact: "Info coming soon.",
+      img: "https://via.placeholder.com/150?text=Pallas's+Cat"
+    },
+{
+      name: "Mainland Clouded Leopard",
+      coords: [0, 0],
+      country: "Unknown",
+      fact: "Info coming soon.",
+      img: "https://via.placeholder.com/150?text=Mainland+Clouded+Leopard"
+    },
+{
+      name: "Mainland Leopard Cat",
+      coords: [0, 0],
+      country: "Unknown",
+      fact: "Info coming soon.",
+      img: "https://via.placeholder.com/150?text=Mainland+Leopard+Cat"
+    },
+{
+      name: "Asian leopard cat",
+      coords: [0, 0],
+      country: "Unknown",
+      fact: "Info coming soon.",
+      img: "https://via.placeholder.com/150?text=Asian+leopard+cat"
+    },
+{
+      name: "Borneo Bay cat",
+      coords: [0, 0],
+      country: "Unknown",
+      fact: "Info coming soon.",
+      img: "https://via.placeholder.com/150?text=Borneo+Bay+cat"
+    },
+{
+      name: "Colocolo",
+      coords: [0, 0],
+      country: "Unknown",
+      fact: "Info coming soon.",
+      img: "https://via.placeholder.com/150?text=Colocolo"
+    },
+{
+      name: "Northern Oncilla",
+      coords: [0, 0],
+      country: "Unknown",
+      fact: "Info coming soon.",
+      img: "https://via.placeholder.com/150?text=Northern+Oncilla"
+    },
+{
+      name: "Southern Oncilla",
+      coords: [0, 0],
+      country: "Unknown",
+      fact: "Info coming soon.",
+      img: "https://via.placeholder.com/150?text=Southern+Oncilla"
+    },
+{
+      name: "Guina",
+      coords: [0, 0],
+      country: "Unknown",
+      fact: "Info coming soon.",
+      img: "https://via.placeholder.com/150?text=Guina"
+    },
+{
+      name: "Blynx",
+      coords: [0, 0],
+      country: "Unknown",
+      fact: "Info coming soon.",
+      img: "https://via.placeholder.com/150?text=Blynx"
+    },
+{
+      name: "Euro-chaus",
+      coords: [0, 0],
+      country: "Unknown",
+      fact: "Info coming soon.",
+      img: "https://via.placeholder.com/150?text=Euro-chaus"
+    },
+{
+      name: "Marlot",
+      coords: [0, 0],
+      country: "Unknown",
+      fact: "Info coming soon.",
+      img: "https://via.placeholder.com/150?text=Marlot"
+    },
+{
+      name: "Pumapard",
+      coords: [0, 0],
+      country: "Unknown",
+      fact: "Info coming soon.",
+      img: "https://via.placeholder.com/150?text=Pumapard"
+    }
+];
+
+    catSpecies.forEach(cat => {
+      L.marker(cat.coords).addTo(map)
+        .bindPopup(`<b>${cat.name}</b><br>${cat.country}<br>${cat.fact}<br><img src="${cat.img}" width="150">`);
+    });</script>
